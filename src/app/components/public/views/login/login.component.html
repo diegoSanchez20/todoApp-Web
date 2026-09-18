@@ -4,7 +4,7 @@
       <h3 class="text-center mb-4">
         Iniciar sesión
       </h3>
-      <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
+      <form [formGroup]="loginForm" (ngSubmit)="onClick.iniciarSesion()">
         <div class="mb-3">
           <label class="form-label"> Email</label>
           <input
@@ -14,10 +14,13 @@
             placeholder="Ingrese su email"
           >
           <div
-            class="text-danger"
-            *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+            class="text-danger mt-1"
+            *ngIf="
+              loginForm.get('email')?.touched &&
+              loginForm.get('email')?.invalid
+            "
           >
-            El email es obligatorio
+            {{ emailErrorMsg }}
           </div>
         </div>
 
@@ -33,10 +36,13 @@
             placeholder="Ingrese su contraseña"
           >
           <div
-            class="text-danger"
-            *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+            class="text-danger mt-1"
+            *ngIf="
+              loginForm.get('password')?.touched &&
+              loginForm.get('password')?.invalid
+            "
           >
-            La contraseña es obligatoria.
+            {{ passwordErrorMsg }}
           </div>
         </div>
         <!-- Botón -->

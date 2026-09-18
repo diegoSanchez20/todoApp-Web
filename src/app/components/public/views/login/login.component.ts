@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
+import { LoginRequest } from 'src/app/models/request/login-request';
+import { LoginService } from 'src/app/services/login.service';
+import { MsgValidators } from 'src/app/utils/msgValidators';
 
 @Component({
   selector: 'app-login',
@@ -9,27 +14,51 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private loginService: LoginService,
+              private router: Router,
+  ) {
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required,Validators.email]],
-      password: ['',[Validators.required,Validators.minLength(8)]]
+      password: ['',[Validators.required,Validators.minLength(9)]]
     });
   }
 
-  iniciarSesion(): void {
+  get passwordErrorMsg():string{
+    return MsgValidators.msgErrorPassword(this.loginForm,'password');
+  }
 
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
+  get emailErrorMsg():string{
+    return MsgValidators.msgErrorEmail(this.loginForm,'email');
+  }
+
+  onClick = {
+    iniciarSesion: async() => {
+  
+      if (this.loginForm.invalid) {
+        this.loginForm.markAllAsTouched();
+        return;
+      }
+  
+      let response = await this.services.login();
+
+      if(response.status == 200){
+      sessionStorage.setItem('user',JSON.stringify(response.body));
+      this.router.navigate(["private/task"])
+      }
     }
 
-    console.log('Formulario:', this.loginForm.value);
+   }
 
-    const email = this.loginForm.value.email;
-    const password = this.loginForm.value.password;
+  services = {
+    login: () => {
+      let params:LoginRequest = {
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password
+      }
 
-    console.log('Email:', email);
-    console.log('Password:', password);
+      return lastValueFrom(this.loginService.login(params));
+    },
   }
 }
