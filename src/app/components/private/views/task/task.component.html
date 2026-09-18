@@ -1,6 +1,6 @@
 <div class="m-4">
     <div *ngIf="listaTareas.length > 0">
-        <button type="button" class="btn btn-primary">Nuevo</button>
+        <button type="button" class="btn btn-primary" (click)="onClick.crear()">Nuevo</button>
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -13,7 +13,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of listaTareas;let i = index">
-                        <th scope="row">{{ i }}</th>
+                        <th scope="row">{{ i + 1 }}</th>
                         <td>{{ item.title }}</td>
                         <td>
                             {{ item.completed ? 'Completado' : 'Pendiente'}}
@@ -32,7 +32,7 @@
                             <button (click)="onClick.delete(item)" type="button" class="btn tbn-danger" title="Eliminar">
                                 <i class="fa fa-trash" title="Eliminar"></i>
                             </button>
-                            <button type="button" class="btn tbn-danger" title="Editar">
+                            <button (click)="onClick.editar(item)" type="button" class="btn tbn-danger" title="Editar">
                                 <i class="fa-solid fa-pen-to-square" title="Editar"></i>
                             </button>
                         </td>

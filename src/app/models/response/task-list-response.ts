@@ -7,7 +7,7 @@ export interface DataTaskList {
   id?: number;
   title?: string;
   description?: string;
-  completed?: string;
+  completed?: boolean;
 }
 
 export interface MetaTask {

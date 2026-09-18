@@ -58,6 +58,15 @@ export class TaskComponent {
   }
 
   onClick = {
+    crear:() => {
+      this.router.navigateByUrl(`/private/task-create-edit`);
+    },
+    editar: (item: DataTaskList) => {
+      this.router.navigate(
+        [`/private/task-create-edit/${item.id}`],
+        {state: {item: item }}
+      );
+    },
     completedId: async(item:DataTaskList) =>{
       let response = await this.service.completedId(item.id!);
       if(response.status == 200){

@@ -14,6 +14,10 @@ const routes: Routes = [
         component:TaskComponent
       },
       {
+        path:'task-create-edit',
+        component:TaskCrearEditarComponent,
+      },
+      {
         path:'task-create-edit/:id',
         component:TaskCrearEditarComponent,
       },
