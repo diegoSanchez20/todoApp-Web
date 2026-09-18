@@ -54,8 +54,10 @@ export class LoginComponent {
         sessionStorage.setItem('user', JSON.stringify(response.body));
         this.router.navigate(['/private/task']);
       }
+    },
+    irRegistrarUsuario: () => {
+      this.router.navigate(['/register']);
     }
-
    }
 
   services = {

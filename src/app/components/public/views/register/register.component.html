@@ -2,22 +2,38 @@
   <div class="row justify-content-center"> 
     <div class="col-md-4">
       <h3 class="text-center mb-4">
-        Iniciar sesión
+        Registrar
       </h3>
-      <form [formGroup]="loginForm" (ngSubmit)="register()">
+      <form [formGroup]="registerForm" (ngSubmit)="onClick.register()">
+        <div class="mb-3">
+          <label class="form-label"> Nombres Completos</label>
+          <input
+            class="form-control"
+            formControlName="name"
+            placeholder="Ingrese sus nombres Completos"
+            maxlength="255"
+          >
+          <div
+            class="text-danger"
+            *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid"
+          >
+            Ingrese sus nombres completos
+          </div>
+        </div>
         <div class="mb-3">
           <label class="form-label"> Email</label>
           <input
             type="email"
             class="form-control"
             formControlName="email"
-            placeholder="Ingrese su email"
+            placeholder="Ingrese su email",
+            maxlength="255"
           >
           <div
             class="text-danger"
-            *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+            *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
           >
-            El email es obligatorio
+            {{ emailErrorMsg }}
           </div>
         </div>
 
@@ -31,12 +47,13 @@
             class="form-control"
             formControlName="password"
             placeholder="Ingrese su contraseña"
+            maxlength="255"
           >
           <div
             class="text-danger"
-            *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+            *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
           >
-            La contraseña es obligatoria.
+            {{ passwordErrorMsg }}
           </div>
         </div>
         <!-- Botón -->
@@ -44,9 +61,16 @@
           type="submit"
           class="btn btn-primary w-100"
         >
-          Iniciar sesión
+          Registrar
         </button>
       </form>
+      <button
+        type="button"
+        (click)="onClick.irLogin()"
+        class="btn btn-link d-block mx-auto mt-2"
+      >
+        ¿Ya tienes una cuenta? Haz clic aquí
+      </button>
     </div>
   </div>
 </div>

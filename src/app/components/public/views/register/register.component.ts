@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
+import { RegisterRequest } from 'src/app/models/request/register-request';
+import { LoginService } from 'src/app/services/login.service';
+import { MsgValidators } from 'src/app/utils/msgValidators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -7,29 +13,60 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  loginForm: FormGroup;
+  registerForm: FormGroup;
   
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private loginService: LoginService,
+              private router: Router,
+  ) {
 
-    this.loginForm = this.fb.group({
+    this.registerForm = this.fb.group({
+      name: ['', [Validators.required]],
       email: ['', [Validators.required,Validators.email]],
       password: ['',[Validators.required,Validators.minLength(8)]]
     });
   }
 
-  register(): void {
+  get passwordErrorMsg():string{
+    return MsgValidators.msgErrorPassword(this.registerForm,'password');
+  }
 
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
+  get emailErrorMsg():string{
+    return MsgValidators.msgErrorEmail(this.registerForm,'email');
+  }
+
+  onClick = {
+    register: async() => {
+   
+      if (this.registerForm.invalid) {
+        this.registerForm.markAllAsTouched();
+        return;
+      }
+  
+      let params: RegisterRequest = {
+        email: this.registerForm.value.email.trim(),
+        name: this.registerForm.value.name.trim(),
+        password: this.registerForm.value.password.trim(),
+      }
+
+      let response = await this.services.register(params);
+      if(response.status == 201){
+        Swal.fire({
+          icon: 'success',
+          html: `Usuario registrado correctamente.`,
+        });
+        this.router.navigate(['/login']);
+      }
+    },
+   
+    irLogin: async() => {
+      this.router.navigate(['/login']);
     }
+  }
 
-    console.log('Formulario:', this.loginForm.value);
-
-    const email = this.loginForm.value.email;
-    const password = this.loginForm.value.password;
-
-    console.log('Email:', email);
-    console.log('Password:', password);
+  services = {
+    register: (params:RegisterRequest) => {
+      return lastValueFrom(this.loginService.register(params));
+    },
   }
 }
