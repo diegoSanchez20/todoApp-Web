@@ -37,14 +37,11 @@ export class LoaderInterceptor implements HttpInterceptor {
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 401) {
-
-            if (this.jwtService.isLoggedIn()) {
-              this.jwtService.signout();
-            }
+            this.jwtService.signout();
 
             if (!request.url.endsWith('/logout')) {
               this.showErrorModal('Su sesión ha expirado.');
-              this.router.navigate(['/login']);
+              this.router.navigate(['/login'], { replaceUrl: true });
             }
 
           } else if (error.status === 0) {

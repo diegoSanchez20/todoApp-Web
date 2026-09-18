@@ -16,9 +16,8 @@ export class LayoutComponent {
   
   onClick = {
     logout: async() => {
-      try {
-        await this.services.logout();
-      } finally {
+      let response =  await this.services.logout();
+      if(response.status == 200){
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('token');
         this.router.navigate(['/login']);

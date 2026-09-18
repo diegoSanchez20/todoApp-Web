@@ -1,1 +1,53 @@
-<p>task works!</p>
+<div class="m-4">
+    <div *ngIf="listaTareas.length > 0">
+        <button type="button" class="btn btn-primary">Nuevo</button>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of listaTareas;let i = index">
+                        <th scope="row">{{ i }}</th>
+                        <td>{{ item.title }}</td>
+                        <td>
+                            {{ item.completed ? 'Completado' : 'Pendiente'}}
+                        </td>
+                        <td>
+                            <span *ngIf="!item.completed; else otroEstado">
+                                <button (click)="onClick.completedId(item)" type="button" class="btn tbn-success" title="Tarea Completada">
+                                    <i class="fa-regular fa-square"></i>
+                                </button>
+                            </span>
+                            <ng-template #otroEstado>
+                                <button (click)="onClick.completedId(item)" type="button" class="btn tbn-success" title="Tarea Pendiente">
+                                    <i class="fa-solid fa-square-check"></i>
+                                </button>
+                            </ng-template>
+                            <button (click)="onClick.delete(item)" type="button" class="btn tbn-danger" title="Eliminar">
+                                <i class="fa fa-trash" title="Eliminar"></i>
+                            </button>
+                            <button type="button" class="btn tbn-danger" title="Editar">
+                                <i class="fa-solid fa-pen-to-square" title="Editar"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <app-pagination
+                [pagesTotal]="pagination.pagesTotal"
+                [pagesActual]="pagination.pagesActual"
+                [totalRows]="pagination.totalRows"
+                (eventChangePage)="pagination.onChangePage($event)"
+                *ngIf="listaTareas!.length > 0"
+            />
+        </div>
+    </div>
+</div>  

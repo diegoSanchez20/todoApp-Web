@@ -1,0 +1,37 @@
+<div class="d-flex align-items-center justify-content-between">
+    <p *ngIf="totalRows">Total de registros: {{totalRows}}</p>
+
+    <ul class="d-flex">
+        <li
+            class="px-2 py-1"
+            [ngClass]="{'cursor-not-allowed': pagesActual === 1,'cursor-pointer': pagesActual > 1}"
+            (click)="prevPage()"
+        >
+            <span>
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </span>
+        </li>
+        <li
+            class="px-3 py-1"
+            *ngFor="let item of arrayPages"
+            (click)="selectPage(item)"
+            [ngClass]="{'color-primary': item == pagesActual, 'cursor-pointer': item !== pagesActual}"
+        >
+            <span>
+                {{item}}
+            </span>
+        </li>
+        <li
+            class="px-2 py-1"
+            [ngClass]="{'cursor-not-allowed': pagesActual === pagesTotal,'cursor-pointer': pagesActual < pagesTotal}"
+            (click)="nextPage()"
+            >
+            <span>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </span>
+        </li>
+    </ul>
+
+</div>
+
+

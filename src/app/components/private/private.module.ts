@@ -6,6 +6,7 @@ import { TaskComponent } from './views/task/task.component';
 import { PrivateRoutingModule } from './private-routing.module';
 import { TaskCrearEditarComponent } from './views/task/task-crear-editar/task-crear-editar.component';
 import { LayoutComponent } from './layout/layout/layout.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { LayoutComponent } from './layout/layout/layout.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    PrivateRoutingModule
+    PrivateRoutingModule,
+    SharedModule
   ]
 })
 export class PrivateModule { }

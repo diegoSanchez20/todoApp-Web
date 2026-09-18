@@ -44,8 +44,15 @@ export class LoginComponent {
       let response = await this.services.login();
 
       if(response.status == 200){
-      sessionStorage.setItem('user',JSON.stringify(response.body));
-      this.router.navigate(["private/task"])
+        const accessToken = response.body?.data?.access_token;
+
+        if (!accessToken) {
+          return;
+        }
+
+        sessionStorage.setItem('token', accessToken);
+        sessionStorage.setItem('user', JSON.stringify(response.body));
+        this.router.navigate(['/private/task']);
       }
     }
 
