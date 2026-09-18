@@ -40,7 +40,7 @@ export class LoaderInterceptor implements HttpInterceptor {
             this.jwtService.signout();
 
             if (!request.url.endsWith('/logout')) {
-              this.showErrorModal('Su sesión ha expirado.');
+              this.showErrorModal(error.error.message ?? 'Su sesión ha expirado.');
               this.router.navigate(['/login'], { replaceUrl: true });
             }
 
