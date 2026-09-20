@@ -38,25 +38,14 @@ export class LoaderInterceptor implements HttpInterceptor {
         catchError((error: HttpErrorResponse) => {
           if (error.status === 401) {
             this.jwtService.signout();
-
             if (!request.url.endsWith('/logout')) {
               this.showErrorModal(error.error.message ?? 'Su sesión ha expirado.');
               this.router.navigate(['/login'], { replaceUrl: true });
             }
-
           } else if (error.status === 0) {
-
-            this.showErrorModal(
-              'No se pudo conectar con el servidor.'
-            );
-
+            this.showErrorModal( 'No se pudo conectar con el servidor.');
           } else {
-
-            const mensaje =
-              error.error?.mensaje?.descripcion ??
-              error.error?.message ??
-              'Ocurrió un error.';
-
+            const mensaje = error.error?.mensaje?.descripcion ?? error.error?.message ??'Ocurrió un error.';
             this.showErrorModal(mensaje);
           }
 
